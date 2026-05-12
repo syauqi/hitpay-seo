@@ -9,23 +9,32 @@
   var R = {
     "/":                          { name: "HitPay",                       parent: null },
 
-    // Online Payments cluster
+    // Top-level products (match real nav IA: each is its own top-level item)
     "/payment-gateway":           { name: "Online Payments",              parent: "/" },
-    "/payment-links":             { name: "Payment Links",                parent: "/payment-gateway" },
-    "/recurring-billing":         { name: "Recurring Billing",            parent: "/payment-gateway" },
-    "/invoicing":                 { name: "Invoicing",                    parent: "/payment-gateway" },
+    "/card-terminal":             { name: "In-Person Payments",           parent: "/" },
+    "/payment-links":             { name: "Payment Links",                parent: "/" },
+    "/recurring-billing":         { name: "Recurring Billing",            parent: "/" },
+    "/invoicing":                 { name: "Invoicing",                    parent: "/" },
+    "/paymentapis":               { name: "Payment APIs",                 parent: "/" },
+    "/cross-border-payments":     { name: "Cross-Border Payments",        parent: "/" },
+    "/pos-software":              { name: "POS Software",                 parent: "/" },
+    "/online-store":              { name: "Online Store",                 parent: "/" },
+
+    // Sub-features under their respective top-level products
     "/free-invoice-generator":    { name: "Free Invoice Generator",       parent: "/invoicing" },
-    "/paymentapis":               { name: "Payment APIs",                 parent: "/payment-gateway" },
     "/pricecal-hitpay-payment-api": { name: "API Pricing Calculator",     parent: "/paymentapis" },
-    "/cross-border-payments":     { name: "Cross-Border Payments",        parent: "/payment-gateway" },
     "/remittance-api-cross-border-payouts": { name: "Remittance API",     parent: "/cross-border-payments" },
     "/multi-currency-ecommerce-pricing":    { name: "Multi-Currency Pricing", parent: "/cross-border-payments" },
     "/bangladesh-payout-api":     { name: "Bangladesh Payout API",        parent: "/cross-border-payments" },
     "/philippines-payout-api":    { name: "Philippines Payout API",       parent: "/cross-border-payments" },
+    "/japan-payment-gateway-singapore": { name: "Japan Payments (SG)",    parent: "/cross-border-payments" },
+    "/korean-ewallet-payment-gateway":  { name: "Korean E-Wallets",       parent: "/cross-border-payments" },
+    "/accept-zalopay-vietqr-vietnam":   { name: "ZaloPay / VietQR",       parent: "/cross-border-payments" },
+    "/hitpay-borderless-qr-payments":   { name: "Borderless QR",          parent: "/cross-border-payments" },
     "/ewallets-recurring-payments-subscriptions": { name: "E-Wallet Subscriptions", parent: "/recurring-billing" },
+    "/donation-link":             { name: "Donation Link",                parent: "/payment-links" },
 
-    // In-Person Payments cluster
-    "/card-terminal":             { name: "In-Person Payments",           parent: "/" },
+    // In-Person Payments sub-products (keep nested under card-terminal)
     "/terminals":                 { name: "Card Terminals",               parent: "/card-terminal" },
     "/tap-to-pay-singapore":      { name: "Tap to Pay (Singapore)",       parent: "/card-terminal" },
     "/tap-to-pay-malaysia":       { name: "Tap to Pay (Malaysia)",        parent: "/card-terminal" },
@@ -36,11 +45,9 @@
     "/paynow-alerts-soundbox-singapore": { name: "PayNow Soundbox (SG)",  parent: "/payment-soundbox" },
     "/static-qr":                 { name: "Static QR",                    parent: "/card-terminal" },
     "/donation-kiosk":            { name: "Donation Kiosk",               parent: "/card-terminal" },
-    "/donation-link":             { name: "Donation Link",                parent: "/payment-links" },
+    "/atome-qr-code-in-person-payments": { name: "Atome QR (In-Person)",  parent: "/card-terminal" },
 
-    // Software
-    "/pos-software":              { name: "POS Software",                 parent: "/" },
-    "/online-store":              { name: "Online Store",                 parent: "/" },
+    // Online Store sub-features
     "/ecommerce-website-builder": { name: "Ecommerce Website Builder",    parent: "/online-store" },
     "/free-ecommerce-website-templates": { name: "Free Ecommerce Templates", parent: "/online-store" },
 
@@ -55,7 +62,7 @@
     "/merch-store-design-template":      { name: "Merch Store Template",       parent: "/free-ecommerce-website-templates" },
     "/travel-website-design":            { name: "Travel Template",            parent: "/free-ecommerce-website-templates" },
 
-    // Solutions
+    // Solutions (industry verticals)
     "/solutions/b2b-invoicing-and-payment-solutions":         { name: "B2B Invoicing",          parent: "/" },
     "/solutions/ecommerce":                                    { name: "Ecommerce",             parent: "/" },
     "/solutions/education-payment-solutions":                  { name: "Education",             parent: "/" },
@@ -69,7 +76,7 @@
     "/solutions/travel-payment-solutions":                     { name: "Travel",                parent: "/" },
     "/solutions/wellness-payment-solutions":                   { name: "Wellness",              parent: "/" },
 
-    // Integrations
+    // Integrations hub
     "/integrations":              { name: "Integrations",                 parent: "/" },
     "/shopify":                   { name: "Shopify",                      parent: "/integrations" },
     "/woocommerce":               { name: "WooCommerce",                  parent: "/integrations" },
@@ -93,7 +100,7 @@
     "/payment-gateway-reseller-malaysia-pos-integration":   { name: "POS Reseller (Malaysia)",  parent: "/integrations" },
     "/payid-integration":         { name: "PayID Integration",            parent: "/integrations" },
 
-    // Payment methods
+    // Payment methods (under Online Payments product)
     "/paynow":                    { name: "PayNow",                       parent: "/payment-gateway" },
     "/gcash":                     { name: "GCash",                        parent: "/payment-gateway" },
     "/grabpay":                   { name: "GrabPay",                      parent: "/payment-gateway" },
@@ -111,7 +118,6 @@
     "/touch-n-go":                { name: "Touch 'n Go",                  parent: "/payment-gateway" },
     "/atome-sg":                  { name: "Atome (Singapore)",            parent: "/bnpl-singapore" },
     "/atome-my":                  { name: "Atome (Malaysia)",             parent: "/bnpl-malaysia" },
-    "/atome-qr-code-in-person-payments": { name: "Atome QR (In-Person)",  parent: "/card-terminal" },
     "/spaylater":                 { name: "SPayLater",                    parent: "/bnpl-singapore" },
     "/spaylater-philippines":     { name: "SPayLater (PH)",               parent: "/bnpl-philippines" },
     "/paylater-grab":             { name: "PayLater by Grab",             parent: "/payment-gateway" },
@@ -120,10 +126,6 @@
     "/bnpl-singapore":            { name: "BNPL Singapore",               parent: "/payment-gateway" },
     "/bnpl-malaysia":             { name: "BNPL Malaysia",                parent: "/payment-gateway" },
     "/bnpl-philippines":          { name: "BNPL Philippines",             parent: "/payment-gateway" },
-    "/japan-payment-gateway-singapore": { name: "Japan Payments (SG)",    parent: "/cross-border-payments" },
-    "/korean-ewallet-payment-gateway":  { name: "Korean E-Wallets",       parent: "/cross-border-payments" },
-    "/accept-zalopay-vietqr-vietnam":   { name: "ZaloPay / VietQR",       parent: "/cross-border-payments" },
-    "/hitpay-borderless-qr-payments":   { name: "Borderless QR",          parent: "/cross-border-payments" },
 
     // Pricing
     "/pricing":                   { name: "Pricing",                      parent: "/" },
@@ -176,6 +178,21 @@
     return { name: name, parent: "/" };
   }
 
+  function hasExistingBreadcrumbList() {
+    var scripts = document.querySelectorAll('script[type="application/ld+json"]');
+    for (var i = 0; i < scripts.length; i++) {
+      if (scripts[i].id === "hp-breadcrumb-jsonld") continue;
+      try {
+        var parsed = JSON.parse(scripts[i].textContent || scripts[i].text || "null");
+        var arr = Array.isArray(parsed) ? parsed : [parsed];
+        for (var j = 0; j < arr.length; j++) {
+          if (arr[j] && arr[j]["@type"] === "BreadcrumbList") return true;
+        }
+      } catch (e) {}
+    }
+    return false;
+  }
+
   function buildBreadcrumb() {
     var raw = currentPath();
     var seg = raw.split("/").filter(Boolean);
@@ -187,10 +204,18 @@
     var canonical = "/" + seg.join("/");
     if (canonical === "/") canonical = "/";
 
+    // Always remove our previous injection (clean slate on SPA nav)
     var prev = document.getElementById("hp-breadcrumb-jsonld");
     if (prev) prev.parentNode.removeChild(prev);
 
+    // Skip non-indexable / utility routes
     if (SKIP.test(canonical)) return;
+
+    // Skip blog posts — Framer blog template emits its own BreadcrumbList with real post title
+    if (/^\/blog\/.+/.test(canonical)) return;
+
+    // Skip if any other BreadcrumbList already present (catch custom-templated pages)
+    if (hasExistingBreadcrumbList()) return;
 
     var trail = [];
     var cursor = canonical;
@@ -202,7 +227,6 @@
     }
 
     if (localeCode) {
-      // Strip duplicate root before prepending global + locale roots
       if (trail.length && trail[0].path === "/") trail.shift();
       trail.unshift({ path: "/" + localeCode, name: LOCALES[localeCode] });
       trail.unshift({ path: "/", name: "HitPay" });
