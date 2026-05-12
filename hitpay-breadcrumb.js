@@ -55,7 +55,7 @@
     "/merch-store-design-template":      { name: "Merch Store Template",       parent: "/free-ecommerce-website-templates" },
     "/travel-website-design":            { name: "Travel Template",            parent: "/free-ecommerce-website-templates" },
 
-    // Solutions (industry)
+    // Solutions
     "/solutions/b2b-invoicing-and-payment-solutions":         { name: "B2B Invoicing",          parent: "/" },
     "/solutions/ecommerce":                                    { name: "Ecommerce",             parent: "/" },
     "/solutions/education-payment-solutions":                  { name: "Education",             parent: "/" },
@@ -202,9 +202,16 @@
     }
 
     if (localeCode) {
+      // Strip duplicate root before prepending global + locale roots
+      if (trail.length && trail[0].path === "/") trail.shift();
       trail.unshift({ path: "/" + localeCode, name: LOCALES[localeCode] });
       trail.unshift({ path: "/", name: "HitPay" });
-      if (canonical === "/") trail = trail.slice(0, 2);
+      if (canonical === "/") {
+        trail = [
+          { path: "/",              name: "HitPay" },
+          { path: "/" + localeCode, name: LOCALES[localeCode] }
+        ];
+      }
     }
 
     var itemListElement = trail.map(function (n, i) {
