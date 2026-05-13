@@ -4,12 +4,14 @@
 
   var SITE = "https://hitpayapp.com";
   var LOCALES = { "sg": "Singapore", "my": "Malaysia", "ph": "Philippines" };
-  var SKIP = /^\/(404|privacy-policy|terms-of-service|acceptable-use-policy|merchant-service-agreement|act-on-specified-commercial-transactions|license-registrations|resources\/trust-compliance|cal\.com)$/;
+
+  // Only skip the error page. Everything else gets a breadcrumb.
+  var SKIP = /^\/404$/;
 
   var R = {
     "/":                          { name: "HitPay",                       parent: null },
 
-    // Top-level products (match real nav IA: each is its own top-level item)
+    // Top-level products (match real nav IA)
     "/payment-gateway":           { name: "Online Payments",              parent: "/" },
     "/card-terminal":             { name: "In-Person Payments",           parent: "/" },
     "/payment-links":             { name: "Payment Links",                parent: "/" },
@@ -34,7 +36,7 @@
     "/ewallets-recurring-payments-subscriptions": { name: "E-Wallet Subscriptions", parent: "/recurring-billing" },
     "/donation-link":             { name: "Donation Link",                parent: "/payment-links" },
 
-    // In-Person Payments sub-products (keep nested under card-terminal)
+    // In-Person Payments sub-products
     "/terminals":                 { name: "Card Terminals",               parent: "/card-terminal" },
     "/tap-to-pay-singapore":      { name: "Tap to Pay (Singapore)",       parent: "/card-terminal" },
     "/tap-to-pay-malaysia":       { name: "Tap to Pay (Malaysia)",        parent: "/card-terminal" },
@@ -62,7 +64,7 @@
     "/merch-store-design-template":      { name: "Merch Store Template",       parent: "/free-ecommerce-website-templates" },
     "/travel-website-design":            { name: "Travel Template",            parent: "/free-ecommerce-website-templates" },
 
-    // Solutions (industry verticals)
+    // Solutions
     "/solutions/b2b-invoicing-and-payment-solutions":         { name: "B2B Invoicing",          parent: "/" },
     "/solutions/ecommerce":                                    { name: "Ecommerce",             parent: "/" },
     "/solutions/education-payment-solutions":                  { name: "Education",             parent: "/" },
@@ -76,7 +78,7 @@
     "/solutions/travel-payment-solutions":                     { name: "Travel",                parent: "/" },
     "/solutions/wellness-payment-solutions":                   { name: "Wellness",              parent: "/" },
 
-    // Integrations hub
+    // Integrations
     "/integrations":              { name: "Integrations",                 parent: "/" },
     "/shopify":                   { name: "Shopify",                      parent: "/integrations" },
     "/woocommerce":               { name: "WooCommerce",                  parent: "/integrations" },
@@ -100,7 +102,7 @@
     "/payment-gateway-reseller-malaysia-pos-integration":   { name: "POS Reseller (Malaysia)",  parent: "/integrations" },
     "/payid-integration":         { name: "PayID Integration",            parent: "/integrations" },
 
-    // Payment methods (under Online Payments product)
+    // Payment methods (under Online Payments)
     "/paynow":                    { name: "PayNow",                       parent: "/payment-gateway" },
     "/gcash":                     { name: "GCash",                        parent: "/payment-gateway" },
     "/grabpay":                   { name: "GrabPay",                      parent: "/payment-gateway" },
@@ -132,7 +134,7 @@
     "/pricing/global":            { name: "Global Pricing",               parent: "/pricing" },
     "/stripe-alternative":        { name: "Stripe Alternative",           parent: "/pricing" },
 
-    // Resources
+    // Resources / blog / reviews
     "/blog":                      { name: "Blog",                         parent: "/" },
     "/reviews":                   { name: "Reviews",                      parent: "/" },
     "/customers/durian-bakery":   { name: "Durian Bakery",                parent: "/reviews" },
@@ -141,12 +143,25 @@
     "/hitpay-review-philippines-travel":       { name: "Review: PH Travel",         parent: "/reviews" },
     "/hitpay-terminal-outpost-climbing":       { name: "Review: Outpost Climbing",  parent: "/reviews" },
     "/woocommerce-payment-plugin-four-seasons-catering": { name: "Four Seasons Catering", parent: "/reviews" },
+
+    // Support / company
     "/support":                   { name: "Support",                      parent: "/" },
     "/contact-us":                { name: "Contact Us",                   parent: "/support" },
     "/careers":                   { name: "Careers",                      parent: "/" },
     "/brand":                     { name: "Brand",                        parent: "/" },
     "/affiliate":                 { name: "Affiliate",                    parent: "/" },
-    "/for-startups":              { name: "For Startups",                 parent: "/" }
+    "/for-startups":              { name: "For Startups",                 parent: "/" },
+
+    // Legal / policy (indexed — included for proper breadcrumb)
+    "/privacy-policy":            { name: "Privacy Policy",               parent: "/" },
+    "/terms-of-service":          { name: "Terms of Service",             parent: "/" },
+    "/acceptable-use-policy":     { name: "Acceptable Use Policy",        parent: "/" },
+    "/merchant-service-agreement":{ name: "Merchant Service Agreement",   parent: "/" },
+    "/act-on-specified-commercial-transactions": { name: "Act on Specified Commercial Transactions", parent: "/" },
+    "/license-registrations":     { name: "License Registrations",        parent: "/" },
+    "/resources":                 { name: "Resources",                    parent: "/" },
+    "/resources/trust-compliance":{ name: "Trust & Compliance",           parent: "/resources" },
+    "/cal.com":                   { name: "Book a Call",                  parent: "/" }
   };
 
   function currentPath() {
@@ -204,17 +219,11 @@
     var canonical = "/" + seg.join("/");
     if (canonical === "/") canonical = "/";
 
-    // Always remove our previous injection (clean slate on SPA nav)
     var prev = document.getElementById("hp-breadcrumb-jsonld");
     if (prev) prev.parentNode.removeChild(prev);
 
-    // Skip non-indexable / utility routes
     if (SKIP.test(canonical)) return;
-
-    // Skip blog posts — Framer blog template emits its own BreadcrumbList with real post title
-    if (/^\/blog\/.+/.test(canonical)) return;
-
-    // Skip if any other BreadcrumbList already present (catch custom-templated pages)
+    if (/^\/blog\/.+/.test(canonical)) return; // blog template handles its own
     if (hasExistingBreadcrumbList()) return;
 
     var trail = [];
